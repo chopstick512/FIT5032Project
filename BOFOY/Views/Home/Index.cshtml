@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>BOFOY</h1>
+    <p class="lead">BOFOY is recommending Melbourne's famous or popular cafés for each visitor, each visitor can enter their own comments into the café's review area and rate the cafés </p>
+    @if (!User.Identity.IsAuthenticated)
+    {<p><a href="Account/Register" class="btn btn-danger btn-lg">Register &raquo;</a></p>
+        <p><a href="Account/Login" class="btn btn-danger btn-lg">login in &raquo;</a></p>
+    }
+</div>
+
+<div class="row">
+    @if (User.Identity.IsAuthenticated)
+    {<div class="col-md-8">
+            <h2>View popular Cafe in Melbourne</h2>
+            <p>
+                You can choose your favorite coffee shop here and make a reservation for the products in the store.
+            </p>
+            <p><a class="btn btn-default" href="">view Cafe &raquo;</a></p>
+        </div>
+        <div class="col-md-8">
+            <h2>Start your Review</h2>
+            <p>Here you can comment on any coffee shop, any dish.</p>
+            <p><a class="btn btn-default" href="">Create your new review &raquo;</a></p>
+        </div>
+
+    }
+</div>

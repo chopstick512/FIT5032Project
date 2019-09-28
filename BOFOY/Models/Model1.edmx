@@ -1,0 +1,365 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="bookTime" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="bookFood" Type="int" Nullable="false" />
+          <Property Name="bookCafe" Type="int" Nullable="false" />
+          <Property Name="bookDetail" Type="nvarchar(max)" />
+          <Property Name="CustomerId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="CafeShop">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="OwnerName" Type="nvarchar(max)" />
+          <Property Name="OpenDate" Type="date" Nullable="false" />
+          <Property Name="OpenTime" Type="time" Precision="7" />
+          <Property Name="Latitude" Type="numeric" Precision="10" Scale="8" Nullable="false" />
+          <Property Name="Longitude" Type="numeric" Precision="11" Scale="8" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="MenuName" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MenuPrice" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MenuDescription" Type="nvarchar(max)" />
+          <Property Name="MenuOfCafe" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="ReviewDate" Type="date" Nullable="false" />
+          <Property Name="ReviewDetail" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="ReviewRate" Type="int" Nullable="false" />
+          <Property Name="CustomerId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ReviewMenu" Type="int" Nullable="false" />
+          <Property Name="ReviewCafe" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__Booking__bookCaf__5EBF139D">
+          <End Role="CafeShop" Type="Self.CafeShop" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CafeShop">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="bookCafe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Booking__bookFoo__412EB0B6">
+          <End Role="Menu" Type="Self.Menu" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="bookFood" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Menu__MenuOfCafe__5CD6CB2B">
+          <End Role="CafeShop" Type="Self.CafeShop" Multiplicity="1" />
+          <End Role="Menu" Type="Self.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CafeShop">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="MenuOfCafe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__ReviewCa__5DCAEF64">
+          <End Role="CafeShop" Type="Self.CafeShop" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CafeShop">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="ReviewCafe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__ReviewMe__3C69FB99">
+          <End Role="Menu" Type="Self.Menu" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="ReviewMenu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ModelStoreContainer">
+          <EntitySet Name="Booking" EntityType="Self.Booking" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CafeShop" EntityType="Self.CafeShop" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Menu" EntityType="Self.Menu" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Review" EntityType="Self.Review" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Booking__bookCaf__5EBF139D" Association="Self.FK__Booking__bookCaf__5EBF139D">
+            <End Role="CafeShop" EntitySet="CafeShop" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Booking__bookFoo__412EB0B6" Association="Self.FK__Booking__bookFoo__412EB0B6">
+            <End Role="Menu" EntitySet="Menu" />
+            <End Role="Booking" EntitySet="Booking" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Menu__MenuOfCafe__5CD6CB2B" Association="Self.FK__Menu__MenuOfCafe__5CD6CB2B">
+            <End Role="CafeShop" EntitySet="CafeShop" />
+            <End Role="Menu" EntitySet="Menu" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__ReviewCa__5DCAEF64" Association="Self.FK__Review__ReviewCa__5DCAEF64">
+            <End Role="CafeShop" EntitySet="CafeShop" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__ReviewMe__3C69FB99" Association="Self.FK__Review__ReviewMe__3C69FB99">
+            <End Role="Menu" EntitySet="Menu" />
+            <End Role="Review" EntitySet="Review" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Booking">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="bookTime" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="bookFood" Type="Int32" Nullable="false" />
+          <Property Name="bookCafe" Type="Int32" Nullable="false" />
+          <Property Name="bookDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="CustomerId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="CafeShop" Relationship="Self.FK__Booking__bookCaf__4222D4EF" FromRole="Booking" ToRole="CafeShop" />
+          <NavigationProperty Name="Menu" Relationship="Self.FK__Booking__bookFoo__412EB0B6" FromRole="Booking" ToRole="Menu" />
+        </EntityType>
+        <EntityType Name="CafeShop">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="OwnerName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="OpenDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="OpenTime" Type="Time" Precision="7" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK__Booking__bookCaf__4222D4EF" FromRole="CafeShop" ToRole="Booking" />
+          <NavigationProperty Name="Menus" Relationship="Self.FK__Menu__MenuOfCafe__38996AB5" FromRole="CafeShop" ToRole="Menu" />
+          <NavigationProperty Name="Reviews" Relationship="Self.FK__Review__ReviewCa__3D5E1FD2" FromRole="CafeShop" ToRole="Review" />
+          <Property Name="Latitude" Type="Decimal" Nullable="false" Precision="10" Scale="8" />
+          <Property Name="Longitude" Type="Decimal" Nullable="false" Precision="11" Scale="8" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Menu">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="MenuName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MenuPrice" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MenuDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MenuOfCafe" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Bookings" Relationship="Self.FK__Booking__bookFoo__412EB0B6" FromRole="Menu" ToRole="Booking" />
+          <NavigationProperty Name="CafeShop" Relationship="Self.FK__Menu__MenuOfCafe__38996AB5" FromRole="Menu" ToRole="CafeShop" />
+          <NavigationProperty Name="Reviews" Relationship="Self.FK__Review__ReviewMe__3C69FB99" FromRole="Menu" ToRole="Review" />
+        </EntityType>
+        <EntityType Name="Review">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ReviewDate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="ReviewDetail" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ReviewRate" Type="Int32" Nullable="false" />
+          <Property Name="CustomerId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ReviewMenu" Type="Int32" Nullable="false" />
+          <Property Name="ReviewCafe" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="CafeShop" Relationship="Self.FK__Review__ReviewCa__3D5E1FD2" FromRole="Review" ToRole="CafeShop" />
+          <NavigationProperty Name="Menu" Relationship="Self.FK__Review__ReviewMe__3C69FB99" FromRole="Review" ToRole="Menu" />
+        </EntityType>
+        <Association Name="FK__Booking__bookCaf__4222D4EF">
+          <End Role="CafeShop" Type="Self.CafeShop" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CafeShop">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="bookCafe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Booking__bookFoo__412EB0B6">
+          <End Role="Menu" Type="Self.Menu" Multiplicity="1" />
+          <End Role="Booking" Type="Self.Booking" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Booking">
+              <PropertyRef Name="bookFood" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Menu__MenuOfCafe__38996AB5">
+          <End Role="CafeShop" Type="Self.CafeShop" Multiplicity="1" />
+          <End Role="Menu" Type="Self.Menu" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CafeShop">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Menu">
+              <PropertyRef Name="MenuOfCafe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__ReviewCa__3D5E1FD2">
+          <End Role="CafeShop" Type="Self.CafeShop" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CafeShop">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="ReviewCafe" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Review__ReviewMe__3C69FB99">
+          <End Role="Menu" Type="Self.Menu" Multiplicity="1" />
+          <End Role="Review" Type="Self.Review" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Menu">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Review">
+              <PropertyRef Name="ReviewMenu" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bookings" EntityType="Self.Booking" />
+          <EntitySet Name="CafeShops" EntityType="Self.CafeShop" />
+          <EntitySet Name="Menus" EntityType="Self.Menu" />
+          <EntitySet Name="Reviews" EntityType="Self.Review" />
+          <AssociationSet Name="FK__Booking__bookCaf__4222D4EF" Association="Self.FK__Booking__bookCaf__4222D4EF">
+            <End Role="CafeShop" EntitySet="CafeShops" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Booking__bookFoo__412EB0B6" Association="Self.FK__Booking__bookFoo__412EB0B6">
+            <End Role="Menu" EntitySet="Menus" />
+            <End Role="Booking" EntitySet="Bookings" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Menu__MenuOfCafe__38996AB5" Association="Self.FK__Menu__MenuOfCafe__38996AB5">
+            <End Role="CafeShop" EntitySet="CafeShops" />
+            <End Role="Menu" EntitySet="Menus" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__ReviewCa__3D5E1FD2" Association="Self.FK__Review__ReviewCa__3D5E1FD2">
+            <End Role="CafeShop" EntitySet="CafeShops" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Review__ReviewMe__3C69FB99" Association="Self.FK__Review__ReviewMe__3C69FB99">
+            <End Role="Menu" EntitySet="Menus" />
+            <End Role="Review" EntitySet="Reviews" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Bookings">
+            <EntityTypeMapping TypeName="Model.Booking">
+              <MappingFragment StoreEntitySet="Booking">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="bookTime" ColumnName="bookTime" />
+                <ScalarProperty Name="bookFood" ColumnName="bookFood" />
+                <ScalarProperty Name="bookCafe" ColumnName="bookCafe" />
+                <ScalarProperty Name="bookDetail" ColumnName="bookDetail" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CafeShops">
+            <EntityTypeMapping TypeName="Model.CafeShop">
+              <MappingFragment StoreEntitySet="CafeShop">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="OwnerName" ColumnName="OwnerName" />
+                <ScalarProperty Name="OpenDate" ColumnName="OpenDate" />
+                <ScalarProperty Name="OpenTime" ColumnName="OpenTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Menus">
+            <EntityTypeMapping TypeName="Model.Menu">
+              <MappingFragment StoreEntitySet="Menu">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MenuName" ColumnName="MenuName" />
+                <ScalarProperty Name="MenuPrice" ColumnName="MenuPrice" />
+                <ScalarProperty Name="MenuDescription" ColumnName="MenuDescription" />
+                <ScalarProperty Name="MenuOfCafe" ColumnName="MenuOfCafe" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Reviews">
+            <EntityTypeMapping TypeName="Model.Review">
+              <MappingFragment StoreEntitySet="Review">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ReviewDate" ColumnName="ReviewDate" />
+                <ScalarProperty Name="ReviewDetail" ColumnName="ReviewDetail" />
+                <ScalarProperty Name="ReviewRate" ColumnName="ReviewRate" />
+                <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
+                <ScalarProperty Name="ReviewMenu" ColumnName="ReviewMenu" />
+                <ScalarProperty Name="ReviewCafe" ColumnName="ReviewCafe" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
