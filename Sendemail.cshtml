@@ -8,7 +8,7 @@
 <h2>View</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("SendEmail", "Emails", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.AntiForgeryToken()
 
@@ -46,6 +46,9 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <input type="file" name="attachment" style= "margin-left: 20%;"/>
+            </div>
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Send" class="btn btn-default" />
