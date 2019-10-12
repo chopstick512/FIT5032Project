@@ -2,6 +2,7 @@ using Cafe.Models;
 using Cafe.Serivces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -28,8 +29,21 @@ namespace Cafe.Controllers
                     string subject = se.Subject;
                     string content = se.Content;
 
-                    EmailSender es = new EmailSender();
-                    es.Send(email, subject, content);
+                    var attachment = Request.Files["attachment"];
+                    if (attachment.ContentLength > 0)
+                        // with attachment
+                    {
+                        String path = Path.Combine(Server.MapPath("~/Attachment"), attachment.FileName);
+                        attachment.SaveAs(path);
+                        EmailSender es = new EmailSender();
+                        es.NewSend(email, subject, content, path, attachment.FileName);
+                    }
+                    else
+                         // no attachment
+                    {
+                        EmailSender es = new EmailSender();
+                        es.Send(email, subject, content);
+                    }                    
 
                     ViewBag.Result = "Email has been send.";
                     return View(new EmailSenderViewModel());
