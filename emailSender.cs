@@ -32,7 +32,7 @@ namespace Cafe.Serivces
             var plainTextContent = contents;
             var htmlContent = "<p> Dear customer </p>" + contents + "<p>Thank you </p>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);
-
+             // attachment feature
             var bytes = File.ReadAllBytes(path);
             msg.AddAttachment(fileName, Convert.ToBase64String(bytes));
 
