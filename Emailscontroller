@@ -1,0 +1,46 @@
+using Cafe.Models;
+using Cafe.Serivces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Mvc;
+
+namespace Cafe.Controllers
+{
+    public class EmailsController : Controller
+    {
+
+        public ActionResult SendEmail()
+        {
+            return View(new EmailSenderViewModel());
+        }
+
+
+        [HttpPost]
+        public ActionResult SendEmail(EmailSenderViewModel se)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string email = se.Email;
+                    string subject = se.Subject;
+                    string content = se.Content;
+
+                    EmailSender es = new EmailSender();
+                    es.Send(email, subject, content);
+
+                    ViewBag.Result = "Email has been send.";
+                    return View(new EmailSenderViewModel());
+                }
+                catch
+                {
+                    return View();
+                }
+            }
+            return View();
+        }
+
+    }
+}
