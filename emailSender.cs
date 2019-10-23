@@ -11,7 +11,7 @@ namespace Cafe.Serivces
 {
     public class EmailSender
     {
-        private const String apiKey = "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";
+        
         public void Send(String email, String subject, String contents)
         {
 
